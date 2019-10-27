@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <title>MazeSamfunnet</title>
+  </head>
+  <style>
+  body {
+    background-image: url('samfBilde.jpg');
+  }
+  </style>
+  <body onload="onLoad();">
+    <h2>Finn vennene dine!</h2>
+    <h3 id="counter">Du har 60 sekunder igjen</h3>
+    <span id="bildeRamme">
+    <img id="karakter" src="../../karakterbilder/usikker.png" alt="Karakter" align="left">
+    </span>
+    <span class="bubble speech" id="snakkeBoble">
+      Ånei! Hvor er vennene mine?
+</span>
+<br>
+    <canvas id="mainForm"></canvas>
+    <script src="index.js"></script>
+  </body>
+</html>

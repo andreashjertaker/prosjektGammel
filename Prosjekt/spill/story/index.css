@@ -1,0 +1,252 @@
+
+
+*{
+      box-sizing: border-box;
+  }
+  h1 {
+    width: 70%;
+    font-size: 30px;
+    display: block;
+    text-align: center;
+    font-family: century, serif;
+    line-height: 1.25;
+    font-size: 44px;
+  }
+
+  body{
+      margin: 0;
+      background-color: #232323;
+      color: #fff;
+      font-family: Calibri, sans-serif;
+  }
+
+  .center{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: auto;
+      padding-top: 40px;
+      padding-bottom: 40px;
+  }
+
+  p{
+      width: 70%;
+      font-size: 30px;
+      display: block;
+      text-align: center;
+      font-family: century, serif;
+      line-height: 1.25;
+      font-size: 18px;
+  }
+
+  .char{
+      font-size: 40px;
+      height: 40px;
+      animation: an 3s ease-out 1 both;
+      display: inline-block;
+  }
+
+/* Flyt inn animasjon */
+  @keyframes an{
+      from{
+          opacity: 0;
+          transform: perspective(500px) translate3d(-35px, -40px, -150px) rotate3d(1, -1, 0, 35deg);
+      }
+      to{
+          opacity: 1;
+          transform: perspective(500px) translate3d(0, 0, 0);
+      }
+  }
+
+
+/* CLOUDS */
+body:before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+width: 0;
+height: 0;
+margin: auto;
+border-radius: 100%;
+background: transparent;
+display: block;
+box-shadow: 0 0 150px 100px rgba(255, 255, 255, 0.6),
+200px 0 200px 150px rgba(255, 255, 255, 0.6),
+-250px 0 300px 150px rgba(255, 255, 255, 0.6),
+550px 0 300px 200px rgba(255, 255, 255, 0.6),
+-550px 0 300px 200px rgba(255, 255, 255, 0.6);
+}
+
+
+.buttonSpan {
+  margin-left: 300px;
+  margin-right: auto;
+}
+/* Grønn knapp */
+#myButton1 {
+	box-shadow:inset 2px 2px 2px 0px #3dc21b;
+	background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
+	background-color:#44c767;
+	border-radius:6px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 23px;
+	text-decoration:none;
+	text-shadow:5px 5px 20px #2f6627;
+  visibility: hidden;
+}
+#myButton1:hover {
+	background:linear-gradient(to bottom, #5cbf2a 5%, #44c767 100%);
+	background-color:#5cbf2a;
+  color: white;
+  text-decoration: none;
+}
+#myButton1:active {
+	position:relative;
+	top:5px;
+}
+
+/* Gul knapp */
+#myButton2 {
+	box-shadow:inset 2px 2px 2px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 23px;
+	text-decoration:none;
+	text-shadow:5px 5px 20px #ffee66;
+  visibility: hidden;
+}
+#myButton2:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+  color: white;
+  text-decoration: none;
+}
+#myButton2:active {
+	position:relative;
+	top:1px;
+}
+
+/* Knapp 3 (GUL) */
+#myButton3 {
+	box-shadow:inset 2px 2px 2px 0px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:24px;
+	font-weight:bold;
+	padding:12px 23px;
+	text-decoration:none;
+	text-shadow:5px 5px 20px #ffee66;
+}
+#myButton3:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+  color: white;
+  text-decoration: none;
+}
+#myButton3:active {
+	position:relative;
+	top:1px;
+}
+
+img {
+  height: 250px;
+  width: 250px;
+	border: 10px solid #333;
+  background-color: #fff;
+}
+
+/* Snakkeboble og tanker*/
+#snakkeBoble {
+  color: black;
+  font-size: 18px;
+}
+
+span.bubble {
+	width: 180px;
+	text-align: center;
+	line-height: 1.4em;
+	background-color: #fff;
+	border: 8px solid #333;
+	border-radius: 30px;
+	font-family: sans-serif;
+	padding: 10px;
+position: absolute;
+left: 150px;
+top: 39px;
+}
+
+span.thought {
+	width: 300px;
+	border-radius: 200px;
+	padding: 30px;
+}
+
+span.bubble:before,
+span.bubble:after {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+span.speech:before {
+	left: 30px;
+	bottom: -50px;
+	border: 25px solid;
+	border-color: #333 transparent transparent #333;
+}
+
+span.speech:after {
+	left: 38px;
+	bottom: -30px;
+	border: 15px solid;
+	border-color: #fff transparent transparent #fff;
+}
+
+span.thought:before,
+span.thought:after {
+	left: 10px;
+	bottom: -30px;
+	width: 40px;
+	height: 40px;
+	background-color: #fff;
+	border: 8px solid #333;
+	-webkit-border-radius: 28px;
+	-moz-border-radius: 28px;
+	border-radius: 28px;
+}
+
+span.thought:after {
+	width: 20px;
+	height: 20px;
+	left: 5px;
+	bottom: -40px;
+	-webkit-border-radius: 18px;
+	-moz-border-radius: 18px;
+	border-radius: 18px;
+}
+#text {
+  font-size: 36px;
+}

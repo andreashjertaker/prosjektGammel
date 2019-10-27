@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <title>Mazemap</title>
+  </head>
+  <style>
+  body {
+    background-image: url('mazeBilde.jpg');
+  }
+  </style>
+  <body onload="onLoad()">
+    <h2>Kjapp deg til klasserommet!</h2>
+    <h3 id="counter">Du har 35 sekunder igjen</h3>
+    <span id="bildeRamme">
+    <img id="karakter" src="../../karakterbilder/overrasket.png" alt="Karakter" align="left">
+    </span>
+    <span class="bubble speech" id="snakkeBoble">
+      Jeg må kjappe meg til timen!
+</span>
+<br>
+    <canvas id="mainForm"></canvas>
+    <script src="index.js"></script>
+  </body>
+</html>

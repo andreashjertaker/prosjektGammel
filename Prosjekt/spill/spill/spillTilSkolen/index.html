@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="index.css">
+  </head>
+  <body>
+    <br><br><br><br>
+    <span id="bildeRamme">
+    <img id="karakter" src="../../karakterbilder/overrasket.png" alt="Karakter" align="left">
+    </span>
+    <span class="bubble speech" id="snakkeBoble">
+      Fytti katta! Utrolig trafikk i dag!
+    </span>
+
+    <img src="Meny4.jpg" alt="Meny for spill" id="Meny" />
+    <script>
+      var minBil; // variabel bilen som kjører
+      var Hindringer = []; // Array for hindringer (bilene) som kommer imot
+      var Poengsum; // variabel for poengsumen
+      // Når meny-bilde trykkes vil biler, score, bakgrunner bli spessifisert
+      Meny.onclick = function startBilspill() {
+        Meny.style.display = "none"; // bilde forsvinner når det trykkes på
+        //document.body.style.backgroundImage = "url(bakgrunn4.jpg)"; // henter nytt bakgrunnsbilde rundt canvas
+        minBil = new Komponent(25, 50, "Rodbil.png", 240, 500, "image"); // bilen/brikken spilleren styrer
+        Poengsum = new PoengKomponent(
+          "20px",
+          "consolas",
+          "black",
+          0,
+          40,
+          "text"
+        ); // Utsende og plassering på poengsum
+        spillBakgrunn = new Komponent(
+          480,
+          600,
+          "Veien.jpg",
+          0,
+          0,
+          "background"
+        ); // Spesifikasjoner for bakgrunn
+        spillBakgrunn.speedY = 2; // bestemmer farten bakgrunnen skal bevege seg nedover Y-aksen
+        Spillomraade.start(); //starter selve spillet, er en variabel som inneholder flere funksjoner
+      };
+
+      var Spillomraade = {
+        canvas: document.createElement("canvas"), // lager canvasen
+        start: function() {
+          // starter spillet gjennom å spesifisere canvas og kjører funksjonen OppdaterSpillomraade hvert 2 millisekund
+          this.canvas.width = 450; // canvasen sin bredde blir spesifisert
+          this.canvas.height = 600; // canvasen sin høyde blir spessifisert
+          this.context = this.canvas.getContext("2d"); // Henter canvas for 2d tegning
+          document.body.insertBefore(this.canvas, document.body.childNodes[0]); //
+          this.frameNo = 0; // frame number starter på null
+          this.interval = setInterval(OppdaterSpillomraade, 20); // starter funksjonen OppdaterSpillomraade hvert 20 milisekund
+        }, // funksjon start slutter her
+        clear: function() {
+          // fjerner alt som er i canvasen utenom selve området, gjør plass til nye tregninger slik at ting kan bevege seg
+          this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }, // funksjon clear slutter her
+        stop: function() {
+          // stopper oppdateringen av spillet, altså intervallet startet over
+          clearInterval(this.interval);
+        } // funksjon stop slutter
+      };
+
+      function Komponent(width, height, color, x, y, type) {
+        // tegner rød og grå bil samt bakgrunn
+        this.type = type;
+        if (type == "image" || type == "background") {
+          this.image = new Image();
+          this.image.src = color;
+        }
+        this.width = width; //henter bredden
+        this.height = height; // henter høyden
+        this.speedX = 0;
+        this.speedY = 0;
+        this.x = x;
+        this.y = y;
+        this.Oppdater = function() {
+          ctx = Spillomraade.context;
+          if (type == "image") {
+            // både bakgrunn og bilene bruker samme funksjon, men skal tegnes annerledes
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+          } else if (type == "background") {
+            var pat = ctx.createPattern(this.image, "repeat-y"); // Skaper et mønster som repeterer bakgrunnsbilde på Y-aksen
+            ctx.fillStyle = pat;
+            ctx.translate(this.x, this.y);
+            ctx.fillRect(0, -5000, this.width, 5600); // fordi bakgrunnen repeterer seg nedover må y-verdien være høy slik at bakgrunnen ikke går ut av canvas
+            ctx.translate(-this.x, -this.y); // Begynner å tegne utenfor canvasen(plasserer canvas et annet sted)
+          }
+        };
+
+        this.nyPosisjon = function() {
+          // definerer nye posisjoner ettersom at figurene beveger seg
+          this.x += this.speedX;
+          this.y += this.speedY;
+        };
+        this.crashWith = function(otherobj) {
+          // lånt fra https://www.w3schools.com/graphics/tryit.asp?filename=trygame_obstacle_hit
+          // funksjon for kræsj, variablene setter punktene for hindringer og min bil, og hvis disse kræsjer vil funksjonen retunere verdi om kræsj
+          var myleft = this.x;
+          var myright = this.x + this.width;
+          var mytop = this.y;
+          var mybottom = this.y + this.height;
+          var otherleft = otherobj.x;
+          var otherright = otherobj.x + otherobj.width;
+          var othertop = otherobj.y;
+          var otherbottom = otherobj.y + otherobj.height;
+          var crash = true;
+          if (
+            mybottom < othertop ||
+            mytop > otherbottom ||
+            myright < otherleft ||
+            myleft > otherright
+          ) {
+            crash = false;
+          }
+          return crash;
+        }; // w3 koder slutter her
+      }
+      function PoengKomponent(width, height, color, x, y, type) {
+        // Brukt for å tegne poengsummen, fungerer på samme måte som Komponent
+        this.type = type;
+        this.score = 0;
+        this.width = width;
+        this.height = height;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.x = x;
+        this.y = y;
+        this.Oppdater = function() {
+          // fyller tekseten, men skrives ut lenger nede
+          ctx = Spillomraade.context;
+          if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+          } //else {
+          //ctx.fillStyle = color;
+          //ctx.fillRect(this.x, this.y, this.width, this.height);
+          //}
+        };
+      }
+
+      function OppdaterSpillomraade() {
+        // oppdaterer canvasen, kjøres hver 20 milisekund
+        var x, y;
+        for (i = 0; i < Hindringer.length; i += 1) {
+          if (minBil.crashWith(Hindringer[i])) {
+            Spillomraade.stop(); // stopper funksjonen spillomraade som gjøre at canvasen ikke lenger oppdateres og vil fryse i et bilde hvis en kræsjer
+            //location.replace("Crash.html"); // hvis en kræsjer vil en så bli transpotert til en ny nettside (Du tapte siden)
+            return;
+          }
+        }
+
+        Spillomraade.clear(); // kjører funsksjonen clear som ligger i funksjonen spillomraade
+        Spillomraade.frameNo += 1; // Legger til frames i telleren
+        spillBakgrunn.nyPosisjon(); // Kjører funksjonen nyPosisjon for bakgrunnsbilde
+        spillBakgrunn.Oppdater(); // oppdater bakgrunnsbilde, slik at det beveger seg, funksjonen Oppdater kjøres for bakgrunnsbilde
+        if (Spillomraade.frameNo == 1 || HvertInterval(30)) {
+          // lager en ny hindring hvert 0.3 sekund
+          x = Math.random() * 450; // Bestemmer hvor på x-asken motgående biler skal starte, satt til math.random slik at bilene ikke får et gitt mønster eller spawner på samme sted hver gang
+          y = 0; // Bestemmer hvor på y-aksen motgående biler skal starte, satt til 0 som vil være helt øverst i canvasen
+          Hindringer.push(new Komponent(25, 50, "Gråbil.png", x, y, "image")); // Legger til nye obstacles og bruker variablene x og y spesifisert over
+          Hindringer.push(new Komponent(1, 600, "white", -1, 1)); // obstacle som forhindrer bilen i å kunne kjøre ut av canvasen på venstre side
+          Hindringer.push(new Komponent(1, 600, "white", 449.5, 1)); // samme som over bare på høyre side
+        }
+        for (i = 0; i < Hindringer.length; i += 1) {
+          Hindringer[i].y += 3; // flytter hindringene, motgående biler nedover
+          Hindringer[i].Oppdater(); // starter funksjonen Oppdater for hindringer
+        }
+        var ScoreNedtelling = 1000 - Spillomraade.frameNo; // baserer seg på antall frames, starter på 2000 og teller ned samtdig som frames øker
+        Poengsum.text = "Meter igjen til skolen:  " + ScoreNedtelling; // skriver ut teksten
+        if (ScoreNedtelling == -1) {
+          // Når poengsum når 0 (satt til -1 fordi hvis ikke vil det stå 1 igjen når spillet er ferdig) skal spillet stoppe og spilleren blir plassert på neste side i spillet
+          Spillomraade.stop();
+          location.replace("../../story/story2/index.html");
+          return;
+        }
+        Poengsum.Oppdater(); // kjører funksjonen oppdater for Poengsum
+        minBil.nyPosisjon(); // kjører funksjonen nyPosisjon for minBil
+        minBil.Oppdater(); // kjører funksjonen Oppdater for minBil
+      }
+
+      function HvertInterval(n) {
+        // denne funksjonen er lånt fra https://www.w3schools.com/graphics/tryit.asp?filename=trygame_obstacle_hit
+        if ((Spillomraade.frameNo / n) % 1 == 0) {
+          return true;
+        }
+        return false;
+      }
+      document.onkeydown = function(event) {
+        switch (event.keyCode) {
+          case 39:
+            moveright();
+            break;
+        }
+      };
+
+      document.onkeyup = function(event) {
+        switch (event.keyCode) {
+          case 37:
+            moveleft();
+            break;
+        }
+      };
+
+      function moveleft() {
+        minBil.speedX = -4;
+      }
+
+      function moveright() {
+        minBil.speedX = 4;
+      }
+    </script>
+  </body>
+</html>
